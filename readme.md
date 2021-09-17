@@ -80,17 +80,11 @@ Upgrading from 1.x to 2.x
 -------------------------
 1. First make sure you are running the latest 1.x series tag (see [here](https://github.com/gregplaysguitar/djangocms2000/tags)).
    Refer to notes.markdown for pre-1.0 migration instructions.
-2. If you're using [South](http://south.aeracode.org/), you may need to fake the first
-   migration, ie.
-
-       ./manage.py migrate cms 0001_initial --fake
-
-   (If not using South, you'll need to modify your db to match the new schema by hand.)
-3. The `{% cmsextra %}` tag becomes `{% cms_editor %}`, and now requires a separate import,
+2. The `{% cmsextra %}` tag becomes `{% cms_editor %}`, and now requires a separate import,
    `{% load cms_editor %}`.
-4. The `'markdown'` block format has been removed, and the default is now `'plain'`.
+3. The `'markdown'` block format has been removed, and the default is now `'plain'`.
    `format` is also now a keyword argument, e.g. `{% cmsblock 'text' format='html' %}`.
-5. The `format` argument has been removed from `{% cmsimage ... %}` and its variants,
+4. The `format` argument has been removed from `{% cmsimage ... %}` and its variants,
    since the new extended syntax renders it obsolete.
 
 Keeping cms content in a separate database

@@ -70,8 +70,8 @@ class BaseNode(template.Node):
         required_bits = bits[1:required_length]
 
         # required params are the ones immediately after the tag itself
-        self.options = zip(self.required_params,
-                           [parser.compile_filter(b) for b in required_bits])
+        self.options = list(zip(self.required_params,
+                           [parser.compile_filter(b) for b in required_bits]))
 
         # zero or more optional_params come next.
         optional_param_values = []
@@ -80,8 +80,8 @@ class BaseNode(template.Node):
                 optional_param_values.append(parser.compile_filter(b))
             else:
                 break
-        self.options += zip(self.optional_params, optional_param_values)
-
+        self.options += list(zip(self.optional_params, optional_param_values))
+        
         # all other params are treated as kwarg-like pairs
         for bit in option_bits[len(optional_param_values):]:
             match = kwarg_re.match(bit)
@@ -103,8 +103,8 @@ class BaseNode(template.Node):
 
         count = 0
         for key, expr in self.options:
-            noresolve = {u'1': True, u'0': False}
-            value = noresolve.get(unicode(expr), expr.resolve(context))
+            noresolve = {'1': True, '0': False}
+            value = noresolve.get(str(expr), expr.resolve(context))
             if count < len(self.required_params) and not value:
                 # TODO currently assuming that falsy values are invalid here;
                 # ideally we'd raise a VariableDoesNotExist only if the expr
